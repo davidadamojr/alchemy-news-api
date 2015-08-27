@@ -1,0 +1,32 @@
+{
+  "name": "alchemy-news-api",
+  "version": "0.1.0",
+  "description": "An AlchemyData News API library for Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "contributors": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidadamojr/alchemy-news-api.git"
+  },
+  "keywords": [
+    "alchemy",
+    "news",
+    "nlp"
+  ],
+  "author": "David Adamo <me@davidadamojr.com> (http://www.davidadamojr.com)",
+  "licenses": [
+     "type": "MIT",
+     "url": "https://github.com/brentertz/scapegoat/blob/master/LICENSE-MIT"
+  ],
+  "bugs": {
+    "url": "https://github.com/davidadamojr/alchemy-news-api/issues"
+  },
+  "homepage": "https://github.com/davidadamojr/alchemy-news-api#readme",
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.2.5"
+  }
+}
