@@ -1,4 +1,4 @@
-/**
+**
 * alchemy-news-api - A node module for calling the AlchemyData News API
 * See http://docs.alchemyapi.com/docs/introduction/ for details about 
 * the API requests and responses.
@@ -17,7 +17,7 @@ var AlchemyNewsAPI = function (api_key, opts) {
     var settings = {
         format: "json",
         api_url: "access.alchemyapi.com",
-        protocol: "http"
+        protocol: "https"
     };
 
     settings = extend(settings, opts);
@@ -28,6 +28,44 @@ var AlchemyNewsAPI = function (api_key, opts) {
     };
 
     this.options = {
-        
+        apikey: api_key,
+        outputMode: settings.format
     };
+
+    return this;
+};
+
+/**
+* Generates the URL object to be passed to the HTTP request for a specific 
+* API method call
+* @param {Object} query The query object
+* @return {Object} The URL object for this request
+*/
+AlchemyAPI.prototype._generateNiceUrl = function (query, options) {
+    var result = url.parse(url.format({
+        protocol: this.config.protocol,
+        hostname: this.config.api_url,
+        pathname: '/calls/data/GetNews',
+        method: 'GET',
+        query: options
+    });
+
+    // redirection issue fix here if it comes up
+
+    return result;
+};
+
+/**
+* Function to do a HTTP request with the current query
+* @param {Object} request_query The current query object
+* @param {Function} cb the callback function for the returned data
+* @return {void}
+*/
+AlchemyAPI.prototype._doRequest = function (request_query, cb) {
+    // Pass the requested URl as an object to the get request
+    var http_protocol = (request_query.nice.protocol === 'https:') ? https : http;
+    
+    var req = http_protocol.request(reqeust_query.nice, function (res) {
+      
+    });
 };
