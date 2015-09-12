@@ -65,7 +65,30 @@ AlchemyAPI.prototype._doRequest = function (request_query, cb) {
     // Pass the requested URl as an object to the get request
     var http_protocol = (request_query.nice.protocol === 'https:') ? https : http;
     
-    var req = http_protocol.request(reqeust_query.nice, function (res) {
-      
+    var req = http_protocol.request(request_query.nice, function (res) {
+        var data = [];
+        res
+         .on('data', function (chunk) { data.push(chunk); })
+         .on('end', function () {
+             var urldata = data.join('').trim();
+
+             var result;
+             try {
+                 result = JSON.parse(urldata);
+             } catch (exp) {
+                 result = {'status_code': 500, 'status_text': 'JSON Parse Failed'};    
+             }
+
+             cb(null, result);
+         })
+         .on('error', function (err) {
+             cb(new Error ("response.error: " + err), null);
+         });  
     });
+
+    req.on("error", function (err) {
+        cb(new Error("request.error: " + err), null);
+    }
+
+    req.end();
 };
