@@ -1,4 +1,4 @@
-**
+/**
 * alchemy-news-api - A node module for calling the AlchemyData News API
 * See http://docs.alchemyapi.com/docs/introduction/ for details about 
 * the API requests and responses.
