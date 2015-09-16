@@ -41,11 +41,11 @@ var AlchemyNewsAPI = function (api_key, opts) {
 * @param {Object} query The query object
 * @return {Object} The URL object for this request
 */
-AlchemyAPI.prototype._generateNiceUrl = function (query, options) {
+AlchemyAPI.prototype._generateNiceUrl = function (query, options, method) {
     var result = url.parse(url.format({
         protocol: this.config.protocol,
         hostname: this.config.api_url,
-        pathname: '/calls/data/GetNews',
+        pathname: '/calls' + '/' + method,
         method: 'GET',
         query: options
     });
@@ -92,3 +92,45 @@ AlchemyAPI.prototype._doRequest = function (request_query, cb) {
 
     req.end();
 };
+
+/**
+* Function to check if a passed string is a valid URL
+* @param {String} str The URL string to be checked
+* @return {Boolean}
+*/
+AlchemyAPI.prototype._urlCheck = function (str) {
+    var parsed = url.parse(str);
+    return (!!parsed.hostname && !!parsed.protocol && str.indexOf(' ') < 0);
+};
+
+/**
+* Function to return API key usage information
+* @param {Object} options Options to be passed to AlchemyAPI (no options are currently supported)
+* @param cb
+*/
+AlchemyAPI.prototype.apiKeyInfo = function (options, cb) {
+    var opts = extend(this.options, opts);
+    var query = {
+        data: "",
+        post: {},
+        apimethod: "info/GetAPIKeyInfo",
+        headers: {
+            "content-length": 0
+        }
+    };
+    query.nice = this._generateNiceUrl(null, opts, query.apimethod);
+    query.nice.method = "GET";
+    query.nice.headers = query.headers;
+    this._doRequest(query, cb);
+};
+
+/**
+* Function to search news by topoic e.g. baseball, mobile phones, etc.
+* @param 
+*/
+AlchemyAPI.prototype.getNewsByTaxonomy = function (options) {
+
+};
+
+// export as main entry point in this module
+module.exports = AlchemyAPI;
