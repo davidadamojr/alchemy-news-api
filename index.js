@@ -16,7 +16,7 @@ var imageType = require('image-type');
 var AlchemyNewsAPI = function (api_key, opts) {
     var settings = {
         format: "json",
-        api_url: "access.alchemyapi.com",
+        api_url: "gateway-a.watsonplatform.net",
         protocol: "https"
     };
 
@@ -29,7 +29,9 @@ var AlchemyNewsAPI = function (api_key, opts) {
 
     this.options = {
         apikey: api_key,
-        outputMode: settings.format
+        outputMode: settings.format,
+        start: "now-60d",
+        end: "now"
     };
 
     return this;
@@ -53,6 +55,23 @@ AlchemyAPI.prototype._generateNiceUrl = function (query, options, method) {
     // redirection issue fix here if it comes up
 
     return result;
+};
+
+/**
+* Function to return request parameters based on the AlchemyAPI REST interface
+* @param {Object} The options to be passed to the AlchemyAPI method
+* return {Object}
+*/
+AlchemyAPI.prototype._getQuery = function (opts) {
+    var query = {};
+
+    var options = extend(this.options, opts);
+    var httpMethod = "GET";
+    query.apimethod = "GetNews";
+    query.nice = this._generateNiceUrl(null, options, query.apimethod);
+    query.nice.method = httpMethod;
+
+    return query; 
 };
 
 /**
@@ -125,11 +144,11 @@ AlchemyAPI.prototype.apiKeyInfo = function (options, cb) {
 };
 
 /**
-* Function to search news by topoic e.g. baseball, mobile phones, etc.
+* Function to search news by topic e.g. baseball, mobile phones, etc.
 * @param 
 */
 AlchemyAPI.prototype.getNewsByTaxonomy = function (options) {
-
+    
 };
 
 // export as main entry point in this module
