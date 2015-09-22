@@ -2,7 +2,7 @@
 * alchemy-news-api - A node module for calling the AlchemyData News API
 * See http://docs.alchemyapi.com/docs/introduction/ for details about 
 * the API requests and responses.
-* Copyright (c) 2014 David Adamo Jr.
+* Copyright (c) 2015 David Adamo Jr.
 * MIT License
 */
 
@@ -52,8 +52,6 @@ AlchemyAPI.prototype._generateNiceUrl = function (query, options, method) {
         query: options
     });
 
-    // redirection issue fix here if it comes up
-
     return result;
 };
 
@@ -67,8 +65,9 @@ AlchemyAPI.prototype._getQuery = function (opts) {
 
     var options = extend(this.options, opts);
     var httpMethod = "GET";
-    query.apimethod = "GetNews";
+    query.apimethod = "data/GetNews";
     query.nice = this._generateNiceUrl(null, options, query.apimethod);
+    console.log(query.nice);
     query.nice.method = httpMethod;
 
     return query; 
@@ -145,10 +144,14 @@ AlchemyAPI.prototype.apiKeyInfo = function (options, cb) {
 
 /**
 * Function to search news by topic e.g. baseball, mobile phones, etc.
-* @param 
+* @param {Object} options Options to be passed to AlchemyAPI (start, end, outputMode, count, 
+* taxonomy_label, return_fields) 
+* @param cb callback function
 */
-AlchemyAPI.prototype.getNewsByTaxonomy = function (options) {
-    
+AlchemyAPI.prototype.getNewsByTaxonomy = function (options, cb) {
+    // you need to make sure the url is generated correctly
+    // this._doRequest(this._getQuery(options), cb);
+    this._getQuery(options);
 };
 
 // export as main entry point in this module
