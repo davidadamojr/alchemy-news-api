@@ -11,7 +11,7 @@ var http = require('http');
 var https = require('https');
 var querystring = require('querystring');
 var extend = require('./extend');
-var imageType = require('image-type');
+// var imageType = require('image-type');
 
 var AlchemyNewsAPI = function (api_key, opts) {
     var settings = {
@@ -43,14 +43,14 @@ var AlchemyNewsAPI = function (api_key, opts) {
 * @param {Object} query The query object
 * @return {Object} The URL object for this request
 */
-AlchemyAPI.prototype._generateNiceUrl = function (query, options, method) {
+AlchemyNewsAPI.prototype._generateNiceUrl = function (query, options, method) {
     var result = url.parse(url.format({
         protocol: this.config.protocol,
         hostname: this.config.api_url,
         pathname: '/calls' + '/' + method,
         method: 'GET',
         query: options
-    });
+    }));
 
     return result;
 };
@@ -60,7 +60,11 @@ AlchemyAPI.prototype._generateNiceUrl = function (query, options, method) {
 * @param {Object} The options to be passed to the AlchemyAPI method
 * return {Object}
 */
-AlchemyAPI.prototype._getQuery = function (opts) {
+AlchemyNewsAPI.prototype._getQuery = function (opts) {
+
+    // if statements for each type of query
+    // determine type of query by checking if the opts object has certain properties e.g. relation, label, etc.
+
     var query = {};
 
     var options = extend(this.options, opts);
@@ -79,7 +83,7 @@ AlchemyAPI.prototype._getQuery = function (opts) {
 * @param {Function} cb the callback function for the returned data
 * @return {void}
 */
-AlchemyAPI.prototype._doRequest = function (request_query, cb) {
+AlchemyNewsAPI.prototype._doRequest = function (request_query, cb) {
     // Pass the requested URl as an object to the get request
     var http_protocol = (request_query.nice.protocol === 'https:') ? https : http;
     
@@ -106,7 +110,7 @@ AlchemyAPI.prototype._doRequest = function (request_query, cb) {
 
     req.on("error", function (err) {
         cb(new Error("request.error: " + err), null);
-    }
+    });
 
     req.end();
 };
@@ -116,7 +120,7 @@ AlchemyAPI.prototype._doRequest = function (request_query, cb) {
 * @param {String} str The URL string to be checked
 * @return {Boolean}
 */
-AlchemyAPI.prototype._urlCheck = function (str) {
+AlchemyNewsAPI.prototype._urlCheck = function (str) {
     var parsed = url.parse(str);
     return (!!parsed.hostname && !!parsed.protocol && str.indexOf(' ') < 0);
 };
@@ -126,7 +130,7 @@ AlchemyAPI.prototype._urlCheck = function (str) {
 * @param {Object} options Options to be passed to AlchemyAPI (no options are currently supported)
 * @param cb
 */
-AlchemyAPI.prototype.apiKeyInfo = function (options, cb) {
+AlchemyNewsAPI.prototype.apiKeyInfo = function (options, cb) {
     var opts = extend(this.options, opts);
     var query = {
         data: "",
@@ -148,11 +152,11 @@ AlchemyAPI.prototype.apiKeyInfo = function (options, cb) {
 * taxonomy_label, return_fields) 
 * @param cb callback function
 */
-AlchemyAPI.prototype.getNewsByTaxonomy = function (options, cb) {
+AlchemyNewsAPI.prototype.getNewsByTaxonomy = function (options, cb) {
     // you need to make sure the url is generated correctly
     // this._doRequest(this._getQuery(options), cb);
     this._getQuery(options);
 };
 
 // export as main entry point in this module
-module.exports = AlchemyAPI;
+module.exports = AlchemyNewsAPI;
