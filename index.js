@@ -6,6 +6,8 @@
 * MIT License
 */
 
+'use strict';
+
 var url = require('url');
 var http = require('http');
 var https = require('https');
@@ -125,6 +127,28 @@ AlchemyNewsAPI.prototype._urlCheck = function (str) {
     return (!!parsed.hostname && !!parsed.protocol && str.indexOf(' ') < 0);
 };
 
+
+/**
+* Function to check if a request has all the required parameters
+* @param {Object} options Options to be passed to AlchemyAPI
+* @return {Boolean} returns true if the options object has all required paramters, else otherwise
+*/
+AlchemyNewsAPI.prototype._isOptionsValid = function (options) {
+    if (!options.hasOwnProperty('return')) {
+        // return parameter is mandatory in all requests
+        return false;
+    }
+
+    if (options.hasOwnProperty('taxonomy_label') || options.hasOwnProperty('concept_text') || options.hasOwnProperty('keywords') 
+       || options.hasOwnProperty('entity') || options.hasOwnProperty('relation')) {
+        return true;
+    } else if (options.hasOwnProperty('sentiment') && options.hasOwnProperty('title')) {
+        return true;
+    } else {
+       return false; // options object does not have enough required parameters for a successfuly query
+    }
+};
+
 /**
 * Function to return API key usage information
 * @param {Object} options Options to be passed to AlchemyAPI (no options are currently supported)
@@ -153,9 +177,15 @@ AlchemyNewsAPI.prototype.apiKeyInfo = function (options, cb) {
 * @param cb callback function
 */
 AlchemyNewsAPI.prototype.getNewsByTaxonomy = function (options, cb) {
-    // you need to make sure the url is generated correctly
-    // this._doRequest(this._getQuery(options), cb);
-    this._getQuery(options);
+    if (this._isOptionsValid) {
+        var query = this._getQuery(options);
+        this._doRequest(query, cb);
+    } else {
+        var errorObj = {type: 'error', message: 'Incomplete request parameters.'};
+        cb(errorObj, null);
+    }
+
+
 };
 
 // export as main entry point in this module
