@@ -66,10 +66,83 @@ AlchemyNewsAPI.prototype._getQuery = function (opts) {
 
     // if statements for each type of query
     // determine type of query by checking if the opts object has certain properties e.g. relation, label, etc.
+    
+    var options = {};
+
+    // handle query parameters
+    
+    if (opts.hasOwnProperty('taxonomy_label')) {
+        options["q.enriched.url.enrichedTitle.taxonomy.taxonomy_.label"] = opts["taxonomy_label"];
+    }
+
+    if (opts.hasOwnProperty('concept_text')) {
+        options["q.enriched.url.concepts.concept.text"] = opts["concept_text"];
+    }
+
+    if (opts.hasOwnProperty('keywords')) {
+        options["q.enriched.url.enrichedTitle.keywords.keyword.text"] = opts["keywords"];
+    }
+
+    if (opts.hasOwnProperty('entity_text') && opts.hasOwnProperty('entity_type')) {
+        options['q.enriched.url.enrichedTitle.entities.entity.text'] = opts['entity_text'];
+        options['q.enriched.url.enrichedTitle.entities.entity.type'] = opts['entity_type'];
+    }
+
+    if (opts.hasOwnProperty('relation')) {
+        var relation = opts.relation;
+        var relationString = "|";
+        relation = relation + "subject.entities.entity.type=" + relation.subject_type + ", action.verb.text=" + relation.action 
+                   + ", object.entities.entity.type=" + relation.object_type;
+    }
+
+    if (opts.hasOwnProperty('title')) { 
+        options['q.enriched.url.title'] = opts['title'];
+        if (opts.hasOwnProperty('sentiment_type') && opts.hasOwnProperty('sentiment_score')) {
+            options['q.enriched.url.enrichedTitle.docSentiment.type'] = opts['sentiment_type'];
+            options['q.enriched.url.enrichedTitle.docSentiment.score'] = opts['sentiment_score'];
+        }
+    }
+
+    // build the return parameter
+    var return_parameters = opts['return'].map(function (element) {
+        var return_query;
+        if (element == 'title') {
+            return_query = "enriched.url.title";
+        } else if (element == 'url') {
+            return_query = "enriched.url.url";
+        }
+
+        return return_query;
+    });
+    var return_string = return_parameters.join(',');
+
+
+    if (opts.hasOwnProperty('apikey')) {
+        options['apikey'] = opts['apikey'];
+    } else {
+        options['apikey'] = this.options['apikey']; // use default setting
+    }
+
+    if (opts.hasOwnProperty('outputMode')) {
+        options['outputMode'] = opts['outputMode'];
+    } else {
+        options['outputMode'] = this.options['outputMode'];
+    }
+
+    if (opts.hasOwnProperty('start')) {
+        options['start'] = opts['start'];
+    } else {
+        options['start'] = this.options['start'];
+    }
+
+    if (opts.hasOwnProperty('end')) {
+        options['end'] = opts['end'];
+    } else {
+        options['end'] = this.options['end'];
+    }
 
     var query = {};
 
-    var options = extend(this.options, opts);
     var httpMethod = "GET";
     query.apimethod = "data/GetNews";
     query.nice = this._generateNiceUrl(null, options, query.apimethod);
@@ -145,7 +218,7 @@ AlchemyNewsAPI.prototype._isOptionsValid = function (options) {
     } else if (options.hasOwnProperty('sentiment') && options.hasOwnProperty('title')) {
         return true;
     } else {
-       return false; // options object does not have enough required parameters for a successfuly query
+       return false; // options object does not have enough required parameters for a successfully query
     }
 };
 
@@ -177,14 +250,15 @@ AlchemyNewsAPI.prototype.apiKeyInfo = function (options, cb) {
 * @param cb callback function
 */
 AlchemyNewsAPI.prototype.getNewsByTaxonomy = function (options, cb) {
-    if (this._isOptionsValid) {
+    /*if (this._isOptionsValid) {
         var query = this._getQuery(options);
         this._doRequest(query, cb);
     } else {
         var errorObj = {type: 'error', message: 'Incomplete request parameters.'};
         cb(errorObj, null);
-    }
+    }*/
 
+    return this._getQuery(options);
 
 };
 
