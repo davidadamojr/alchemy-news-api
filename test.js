@@ -2,20 +2,35 @@ var alchemyNews = require('./index');
 
 alchemyNewsAPI = new alchemyNews("6b82d2add35676336df34d81534a180264418d45", {});
 
-alchemyNewsAPI.getNewsByTaxonomy({'title': 'My Life'}, function(){});
+// alchemyNewsAPI.getNewsByTaxonomy({'title': 'My Life', 'return':['title', 'url'], 'taxonomy_label':'music'}, function(){});
 
 
 /*alchemyNewsAPI.apiKeyInfo({}, function (error, response) {
    console.log(response);
 
-});
+});*/
 
-alchemyNewsAPI.getNewsByTaxonomy({}, function (error, response) {
+/*alchemyNewsAPI.getNewsByTaxonomy({'title': 'My Life', 'return':['title', 'url'], 'taxonomy_label':'music'}, function (error, response) {
    if (error) {
        console.log(error);
    } else {
        console.log(response);
    }
 });*/
+
+var concept_query = {
+   'concept_text': 'Android',
+   'return': ['url','title']
+};
+
+// alchemyNewsAPI.getNewsByConcept(concept_query, function (){});
+
+alchemyNewsAPI.getNewsByConcept(concept_query, function (error, response) {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log(response);
+    }
+});
 
 

@@ -115,6 +115,7 @@ AlchemyNewsAPI.prototype._getQuery = function (opts) {
         return return_query;
     });
     var return_string = return_parameters.join(',');
+    options['return'] = return_string;
 
 
     if (opts.hasOwnProperty('apikey')) {
@@ -146,7 +147,7 @@ AlchemyNewsAPI.prototype._getQuery = function (opts) {
     var httpMethod = "GET";
     query.apimethod = "data/GetNews";
     query.nice = this._generateNiceUrl(null, options, query.apimethod);
-    console.log(query.nice);
+    // console.log(query.nice);
     query.nice.method = httpMethod;
 
     return query; 
@@ -250,17 +251,30 @@ AlchemyNewsAPI.prototype.apiKeyInfo = function (options, cb) {
 * @param cb callback function
 */
 AlchemyNewsAPI.prototype.getNewsByTaxonomy = function (options, cb) {
-    /*if (this._isOptionsValid) {
+    if (this._isOptionsValid) {
         var query = this._getQuery(options);
         this._doRequest(query, cb);
     } else {
-        var errorObj = {type: 'error', message: 'Incomplete request parameters.'};
+        var errorObj = {type: 'error', message: 'Incomplete request parameters'};
         cb(errorObj, null);
-    }*/
-
-    return this._getQuery(options);
+    }
 
 };
+
+/**
+* Function to search news by concept e.g. iPad, Android, etc.
+* @param {Object} options Options to be passed to AlchemyAPI (start, end, outputMode, count, concept_text, return fields)
+* @param cb callback function
+*/
+AlchemyNewsAPI.prototype.getNewsByConcept = function (options, cb) {
+    if (this._isOptionsValid) {
+        var query = this._getQuery(options);
+        this._doRequest(query, cb);
+    } else {
+        var errorObj = {type: 'error', message: 'Incomplete request paramters'};
+        cb(errorObj, null);
+    }
+}
 
 // export as main entry point in this module
 module.exports = AlchemyNewsAPI;
