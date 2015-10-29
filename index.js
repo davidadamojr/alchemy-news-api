@@ -274,7 +274,71 @@ AlchemyNewsAPI.prototype.getNewsByConcept = function (options, cb) {
         var errorObj = {type: 'error', message: 'Incomplete request paramters'};
         cb(errorObj, null);
     }
-}
+};
+
+/**
+* Function to search news articles by keywords e.g. clinton
+* @param {Object} options Options to be passed to AlchemyAPI (start, end, outputMode, keyword, etc)
+* @param cb callback function
+*/
+AlchemyNewsAPI.prototype.getNewsByKeyword = function (options, cb) {
+    if (this._isOptionsValid) {
+        var query = this._getQuery(options);
+        this._doRequest(query, cb);
+    } else {
+        var errorObj = {type: 'error', message: 'Incomplete request parameters'};
+        cb(errorObj, null);
+    }
+};
+
+/**
+* Function to search news articles by named entities e.g. Apple
+* @param {Object} options Options to be passed to AlchemyAPI
+* @param cb callback function
+*/
+AlchemyNewsAPI.prototype.getNewsByEntity = function (options, cb) {
+    if (this._isOptionsValid) {
+        var query = this._getQuery(options);
+        this._doRequest(query, cb);
+    } else {
+        var errorObj = {type: 'error', message: 'Incomplete request parameters'};
+        cb(errorObj, null);
+    }
+};
+
+/**
+* Function to search news articles by Subject-Action-Object relations from article title and body
+* @param {Object} options Options to be passed to alchemyAPI
+* @param cb callback function
+*/
+AlchemyNewsAPI.prototype.getNewsByRelation = function (options, cb) {
+    if (this._isOptionsValid) {
+        var query = this._getQuery(options);
+        this._doRequest(query, cb);
+    } else {
+        var errorObj = {type: 'error', message: 'Incomplete request parameters'};
+        cb(errorObj, null);
+    }
+};
+
+/**
+* Function to search news articles based on sentiment 
+* @param {Object} options Options to be passed to alchemyAPI
+* @param cb callback function
+*/
+AlchemyNewsAPI.prototype.getNewsBySentiment = function (options, cb) {
+    if (this._isOptionsValid) {
+        var query = this._getQuery(options);
+        this._doRequest(query, cb);
+    } else {
+        var errorObj = {type: 'error', message: 'Incomplete request parameters'};
+        cb(errorObj, null);
+    }
+};
+
+
+
+// create a custom query function
 
 // export as main entry point in this module
 module.exports = AlchemyNewsAPI;
