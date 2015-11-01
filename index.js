@@ -79,7 +79,7 @@ AlchemyNewsAPI.prototype._getQuery = function (opts) {
         options["q.enriched.url.concepts.concept.text"] = opts["concept_text"];
     }
 
-    if (opts.hasOwnProperty('keywords')) {
+    if (opts.hasOwnProperty('keyword')) {
         options["q.enriched.url.enrichedTitle.keywords.keyword.text"] = opts["keywords"];
     }
 
@@ -90,9 +90,8 @@ AlchemyNewsAPI.prototype._getQuery = function (opts) {
 
     if (opts.hasOwnProperty('relation')) {
         var relation = opts.relation;
-        var relationString = "|";
-        relation = relation + "subject.entities.entity.type=" + relation.subject_type + ", action.verb.text=" + relation.action 
-                   + ", object.entities.entity.type=" + relation.object_type;
+        relation = "|subject.entities.entity.type=" + relation.subject_type + ", action.verb.text=" + relation.action 
+                   + ", object.entities.entity.type=" + relation.object_type + "|";
     }
 
     if (opts.hasOwnProperty('title')) { 
@@ -147,7 +146,7 @@ AlchemyNewsAPI.prototype._getQuery = function (opts) {
     var httpMethod = "GET";
     query.apimethod = "data/GetNews";
     query.nice = this._generateNiceUrl(null, options, query.apimethod);
-    // console.log(query.nice);
+    console.log(query.nice);
     query.nice.method = httpMethod;
 
     return query; 
