@@ -2,7 +2,6 @@ var alchemyNews = require('./index');
 
 alchemyNewsAPI = new alchemyNews("6b82d2add35676336df34d81534a180264418d45", {});
 
-/*
 var taxonomy_query = {
    'taxonomy_label': 'politics',
    'return': ['url', 'title']
@@ -29,7 +28,7 @@ alchemyNewsAPI.getNewsByConcept(concept_query, function (error, response) {
     } else {
         console.log(response);
     }
-});*/
+});
 
 var keyword_query = {
     'keyword_text': 'Clinton',
@@ -45,7 +44,6 @@ alchemyNewsAPI.getNewsByKeyword(keyword_query, function (error, response) {
 });
 
 
-/*
 var entity_query = {
     'entity_text': 'Apple',
     'entity_type': 'company',
@@ -60,6 +58,7 @@ alchemyNewsAPI.getNewsByEntity(entity_query, function (error, response) {
     }
 });
 
+/*
 var relation_query = {
     'relation':{
         'subject_type': 'Company',
@@ -75,7 +74,8 @@ alchemyNewsAPI.getNewsByRelation(relation_query, function (error, response) {
     } else {
         console.log(response);
     }
-};
+});*/
+
 
 var sentiment_query = {
     'title': 'IBM',
@@ -92,4 +92,3 @@ alchemyNewsAPI.getNewsBySentiment(sentiment_query, function (error, response) {
     }
 });
 
-*/

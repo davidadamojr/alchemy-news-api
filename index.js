@@ -79,8 +79,8 @@ AlchemyNewsAPI.prototype._getQuery = function (opts) {
         options["q.enriched.url.concepts.concept.text"] = opts["concept_text"];
     }
 
-    if (opts.hasOwnProperty('keyword')) {
-        options["q.enriched.url.enrichedTitle.keywords.keyword.text"] = opts["keywords"];
+    if (opts.hasOwnProperty('keyword_text')) {
+        options["q.enriched.url.enrichedTitle.keywords.keyword.text"] = opts["keyword_text"];
     }
 
     if (opts.hasOwnProperty('entity_text') && opts.hasOwnProperty('entity_type')) {
@@ -90,8 +90,9 @@ AlchemyNewsAPI.prototype._getQuery = function (opts) {
 
     if (opts.hasOwnProperty('relation')) {
         var relation = opts.relation;
-        relation = "|subject.entities.entity.type=" + relation.subject_type + ", action.verb.text=" + relation.action 
+        var relationStr = "|subject.entities.entity.type=" + relation.subject_type + ", acton.verb.text=" + relation.action 
                    + ", object.entities.entity.type=" + relation.object_type + "|";
+        options['q.enriched.url.enrichedTitle.relations.relation'] = relationStr;
     }
 
     if (opts.hasOwnProperty('title')) { 
@@ -335,9 +336,20 @@ AlchemyNewsAPI.prototype.getNewsBySentiment = function (options, cb) {
     }
 };
 
-
-
-// create a custom query function
+/**
+* Function to retrieve news articles using a custom query
+* @param {Object} options Options to be passed alchemyAPI
+* @param cb callback function
+*/
+AlchemyNewsAPI.prototype.getNews = function (options, cb) {
+    if (this._isOptionsValid) {
+        var query = this._getQuery(options);
+        this._doRequest(query, cb);
+    } else {
+        var errorObj = {type: 'error', message: 'Incomplete request paramters'};
+        cb(errorObj, null);
+    }
+};
 
 // export as main entry point in this module
 module.exports = AlchemyNewsAPI;
