@@ -213,8 +213,8 @@ AlchemyNewsAPI.prototype._isOptionsValid = function (options) {
         return false;
     }
 
-    if (options.hasOwnProperty('taxonomy_label') || options.hasOwnProperty('concept_text') || options.hasOwnProperty('keywords') 
-       || options.hasOwnProperty('entity') || options.hasOwnProperty('relation')) {
+    if (options.hasOwnProperty('taxonomy_label') || options.hasOwnProperty('concept_text') || options.hasOwnProperty('keyword_text') 
+       || options.hasOwnProperty('entity_text') && options.hasOwnProperty('entity_type') || options.hasOwnProperty('relation')) {
         return true;
     } else if (options.hasOwnProperty('sentiment') && options.hasOwnProperty('title')) {
         return true;

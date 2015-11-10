@@ -1,27 +1,65 @@
-var should = require('chai').should(),
-    scapegoat = require('../index'),
-    escape = scapegoat.escape,
-    unescape = scapegoat.unescape;
+var should = require('chai').should();
+var AlchemyNewsAPI = require('../index');
+var alchemyNewsAPI = new AlchemyNewsAPI("nokey", {});
 
-describe('#escape', function () {
-    it('converts & into &amp;', function () {
-        escape('&').should.equal('&amp;');
+describe("testing query builder", function () {
+    it('builds an alchemy-news-api taxonomy query object', function () {
+        
     });
 
-    it('converts " into &quot;', function () {
-        escape('"').should.equal('&quot;');
+    it('builds an alchemy-news-api concept query object', function () {
+
     });
 
-    it("converts ' into &#39;", function () {
-        escape("'").should.equal('&#39;');
+    it('builds an alchemy-news-api keyword query object', function () {
+
     });
 
-    it('converts < into &lt;', function () {
-        escape('<').should.equal('&lt;');
+    it('builds an alchemy-news-api entity query object', function () {
+
+    });
+    
+});
+
+describe("testing options validator", function () {
+    it('query objects without return parameters are invalid', function () {
+        var queryObject = {
+            'taxonomy_label': 'politics',
+            'concept_text': 'Android'
+        };
+        alchemyNewsAPI._isOptionsValid(queryObject).should.equal(false);
     });
 
-    it('converts > into &gt;', function () {
-        escape('>').should.equal('&gt;');
+    it('query objects must have a taxonomy_label, concept_text, keyword_text or relation property', function () {
+        var queryObject = {
+            'taxonomy_label': 'politics',
+            'concept_text': 'Android',
+            'keyword_text': 'Clinton',
+            'relation': {
+                'subject_type': 'Company',
+                'action': 'acquire',
+                'object_type': 'Company'
+            },
+            'return': ['url', 'title']
+        };
+        alchemyNewsAPI._isOptionsValid(queryObject).should.equal(true);
+    });
+
+    it('query objects that have not have the necessary properties are invalid', function () {
+        var queryObject = {
+            'return': ['url', 'title'],
+            'made_up_property': 'Shish Kebab'
+        };
+        alchemyNewsAPI._isOptionsValid(queryObject).should.equal(false);
+    });
+
+    it('a valid object for an entity query must have both entity_text and entity_type', function () {
+        var queryObject = {
+           'entity_text': 'Apple',
+           'entity_type': 'company',
+           'return': ['url', 'title']
+        };
+        alchemyNewsAPI._isOptionsValid(queryObject).should.equal(true);
     });
 });
 
