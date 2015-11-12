@@ -1,14 +1,38 @@
 var should = require('chai').should();
+var expect = require('chai').expect;
 var AlchemyNewsAPI = require('../index');
 var alchemyNewsAPI = new AlchemyNewsAPI("nokey", {});
 
 describe("testing query builder", function () {
     it('builds an alchemy-news-api taxonomy query object', function () {
-        
+        var taxonomyQuery = {
+            'taxonomy_label': 'politics',
+            'return': ['url', 'title']
+        }; 
+        var queryObj = {
+            'apikey': 'nokey',
+            'start': 'now-60d',
+            'end': 'now',
+            'outputMode': 'json',
+            'q.enriched.url.enrichedTitle.taxonomy.taxonomy_.label': 'politics',
+            'return': 'enriched.url.title,enriched.url.url'
+        };
+        expect(alchemyNewsAPI._getQuery(taxonomy_query)).to.deep.equal(queryObj);
     });
 
     it('builds an alchemy-news-api concept query object', function () {
-
+        var conceptQuery = {
+            'concept_text': 'Android',
+            'return': ['url', 'title']
+        };
+        var queryObj = {
+            'apikey': 'nokey',
+            'start': 'now-60d',
+            'end': 'now',
+            'outputMode': 'json',
+            'q.enriched.url.enrichedTitle.taxonomy.taxonomy_.label': 'politics',
+            'return': 'enriched.url.title,enriched.url.url'
+        };
     });
 
     it('builds an alchemy-news-api keyword query object', function () {
@@ -45,7 +69,7 @@ describe("testing options validator", function () {
         alchemyNewsAPI._isOptionsValid(queryObject).should.equal(true);
     });
 
-    it('query objects that have not have the necessary properties are invalid', function () {
+    it('query objects that do not have the necessary properties are invalid', function () {
         var queryObject = {
             'return': ['url', 'title'],
             'made_up_property': 'Shish Kebab'
@@ -58,6 +82,16 @@ describe("testing options validator", function () {
            'entity_text': 'Apple',
            'entity_type': 'company',
            'return': ['url', 'title']
+        };
+        alchemyNewsAPI._isOptionsValid(queryObject).should.equal(true);
+    });
+
+    it('a vlid object for a sentiment query must have both sentitment and title', function () {
+        var queryObject = {
+            'title': 'IBM',
+            'sentiment_type': 'positive',
+            'sentiment_score': '>0.5',
+            'return': ['url', 'title']
         };
         alchemyNewsAPI._isOptionsValid(queryObject).should.equal(true);
     });
