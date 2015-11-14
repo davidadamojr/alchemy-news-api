@@ -33,16 +33,97 @@ describe("testing query builder", function () {
             'q.enriched.url.enrichedTitle.taxonomy.taxonomy_.label': 'politics',
             'return': 'enriched.url.title,enriched.url.url'
         };
+        expect(alchemyNewsAPI._getQuery(conceptQuery)).to.deep.equal(queryObj);
     });
 
     it('builds an alchemy-news-api keyword query object', function () {
-
+        var keywordQuery = {
+            'keyword_text': 'Clinton',
+            'return': ['url', 'title']
+        };
+        var queryObj = {
+            'apikey': 'nokey',
+            'start': 'now-60d',
+            'end': 'now',
+            'outputMode': 'json',
+            'q.enriched.url.enrichedTitle.keywords.keyword.text': 'Clinton',
+            'return': 'enriched.url.title,enriched.url.url'
+        };
+        expect(alchemyNewsAPI._getQuery(keywordQuery)).to.deep.equal(queryObj);
     });
 
     it('builds an alchemy-news-api entity query object', function () {
-
+        var entityQuery = {
+            'entity_text': 'Apple',
+            'entity_type': 'company',
+            'return': ['url', 'title']
+        };
+        var queryObj = {
+            'q.enriched.url.enrichedTitle.entities.entity.text': 'Apple',
+            'q.enriched.url.enrichedTitle.entities.entity.type': 'company',
+            'return': 'enriched.url.title,enriched.url.url',
+            'apikey': 'nokey',
+            'start': 'now-60d',
+            'end': 'now',
+            'outputMOde': 'json'
+        };
+        expect(alchemyNewsAPI._getQuery(entityQuery)).to.deep.equal(queryObj);
     });
-    
+
+    it('builds an alchemy-news-api title query', function () {
+        var titleQuery = {
+            'title': 'IBM',
+            'return': 'enriched.url.title,enriched.url.url'
+        };
+        var queryObj = {
+            'apikey': 'nokey',
+            'start': 'now-60d',
+            'end': 'now',
+            'outputMode': 'json',
+            'q.enriched.url.enrichedTitle.keywords.keyword.text': 'Clinton',
+            'return': 'enriched.url.title,enriched.url.url'
+        };
+        expect(alchemyNewsAPI._getQuery(titleQuery)).to.deep.equal(queryObj);
+    });
+
+    it('builds an alchemy-news-api sentiment query', function () {
+        var sentimentQuery = {
+            'title': 'IBM',
+            'sentiment_type': 'positive',
+            'sentiment_score': '>0.5',
+            'return': ['url', 'title']
+        };
+        var queryObj = {
+            'apikey': 'nokey',
+            'start': 'now-60d',
+            'end': 'now',
+            'outputMode': 'json',
+            'q.enriched.url.enrichedTitle.docSentiment.type': 'positive',
+            'q.enriched.url.enrichedTitle.docSentiment.score': '>0.5',
+            'return': 'enriched.url.title,enriched.url.url'
+        };
+        expect(alchemyNewsAPI._getQuery(sentimentQuery).to.deep.equal(queryObj);
+    });
+
+    it('builds an alchemy-news-api query with user-defined properties for default parameters', function () {
+        var fullQuery = {
+            'title': 'IBM',
+            'apikey': 'newkey',
+            'start': 'now-20d',
+            'end': 'now-10d',
+            'outputMode': 'xml'
+            'return': ['url', 'title']
+        };
+        var queryObj = {
+            'apikey': 'newkey',
+            'start': 'now-20d',
+            'end': 'now-10d',
+            'outputMode': 'xml',
+            'title': 'IBM',
+            'return': 'enriched.url.title,enriched.url.url'
+        };
+        expect(alchemyNewsAPI._getQuery(fullQuery).to.deep.equal(queryObj);
+    });    
 });
 
 describe("testing options validator", function () {

@@ -214,7 +214,7 @@ AlchemyNewsAPI.prototype._isOptionsValid = function (options) {
     }
 
     if (options.hasOwnProperty('taxonomy_label') || options.hasOwnProperty('concept_text') || options.hasOwnProperty('keyword_text') 
-       || options.hasOwnProperty('relation')) {
+    || options.hasOwnProperty('relation')) {
         return true;
     } else if (options.hasOwnProperty('entity_text') && options.hasOwnProperty('entity_type') {
         return true;
