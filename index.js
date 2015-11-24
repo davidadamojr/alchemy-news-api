@@ -147,7 +147,7 @@ AlchemyNewsAPI.prototype._getQuery = function (opts) {
     var httpMethod = "GET";
     query.apimethod = "data/GetNews";
     query.nice = this._generateNiceUrl(null, options, query.apimethod);
-    console.log(query.nice);
+    // console.log(query.nice);
     query.nice.method = httpMethod;
 
     return query; 
@@ -216,9 +216,9 @@ AlchemyNewsAPI.prototype._isOptionsValid = function (options) {
     if (options.hasOwnProperty('taxonomy_label') || options.hasOwnProperty('concept_text') || options.hasOwnProperty('keyword_text') 
     || options.hasOwnProperty('relation')) {
         return true;
-    } else if (options.hasOwnProperty('entity_text') && options.hasOwnProperty('entity_type') {
+    } else if (options.hasOwnProperty('entity_text') && options.hasOwnProperty('entity_type')) {
         return true;
-    } else if (options.hasOwnProperty('sentiment') && options.hasOwnProperty('title')) {
+    } else if (options.hasOwnProperty('sentiment_type') && options.hasOwnProperty('sentiment_score') &&  options.hasOwnProperty('title')) {
         return true;
     } else {
        return false; // options object does not have enough required parameters for a successfully query

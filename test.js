@@ -14,7 +14,7 @@ alchemyNewsAPI.getNewsByTaxonomy(taxonomy_query, function (error, response) {
     } else {
         console.log(response);
     }
-]);
+});
 
 var concept_query = {
    'concept_text': 'Android',

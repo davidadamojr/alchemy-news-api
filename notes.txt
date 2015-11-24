@@ -4,3 +4,4 @@ search by concepts
 
 * create a nice way to specify the fields to return
 * also need to specify time frame, count and other options
+* add counts parameter
