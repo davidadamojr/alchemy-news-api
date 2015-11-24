@@ -1,1 +1,1 @@
-# An AlchemyData News API for Node.js
+# An Alchemy News API library for Node.js
