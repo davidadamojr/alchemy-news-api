@@ -66,7 +66,7 @@ Retrieve news content containing abstract concepts.
             } else {
                 // do something with response
 
-		console.log(response);
+                console.log(response);
             }
         });
 
