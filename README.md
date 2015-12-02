@@ -4,6 +4,8 @@ This module provides calls to the [Alchemy News API](http://www.alchemyapi.com/a
 
 ## Installation
 
+You can install this through npm: npm install alchemy-news-api
+
 You can install via git by cloning: `git clone https://github.com/davidadamojr/alchemy-news-api.git /path/to/alchemy-news-api`
 
 ## Usage
