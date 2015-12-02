@@ -86,7 +86,7 @@ Retrieve news content containing specified keywords. Keywords are terms explicit
             } else {
                 // do something with response
 
-		console.log(response);
+                console.log(response);
             }
         });
 
@@ -107,7 +107,7 @@ Retrieve news articles using named entities. Named entities are proper nouns suc
             } else {
                 // do something with response
 
-		console.log(response);
+                console.log(response);
             }
         });
 
@@ -129,7 +129,7 @@ Retrieve news articles based on sentiment. Articles have positive, negative or n
             } else {
                 // do something with response
 
-		console.log(response);
+                console.log(response);
             }
         });
         
