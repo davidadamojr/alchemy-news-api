@@ -1,4 +1,4 @@
-# An Alchemy News API for Node.js
+# An Alchemy News API Library for Node.js
 
 This module provides calls to the [Alchemy News API](http://www.alchemyapi.com/api/newsapi) for [Nodejs](http://nodejs.org). It is based on [AlchemyAPI for Nodejs](https://github.com/framingeinstein/node-alchemy). For more information on the API requests and responses, visit the [AlchemyData News API docs](http://docs.alchemyapi.com/). To use this module, you will need to obtain a key from [Alchemy](http://www.alchemyapi.com/api/register.html).
 
